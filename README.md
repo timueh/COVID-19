@@ -1,6 +1,6 @@
 # Point estimators for reproduction number `R`
 
-![Reproduction numbers](example/ReproductionNumbers.png)
+![Reproduction numbers](example/reproduction-numbers-estimated-cases-20200511.png)
 
 In the wake of the current pandemic, the reproduction number `R` takes on an important role.
 It is defined as the average number of people who get infected by a typical case.
@@ -11,7 +11,7 @@ Specifically, we compare an acausal point estimator that accurately accounts for
 
 The code is based on the medRxiv submission `MEDRXIV/2020/100974`.
 
-## Comparison based on historical data
+## Comparison based on historical data & estimated cases
 
 The following plot shows three different point estimators, which we should explain first
 
@@ -24,7 +24,7 @@ The following plot shows three different point estimators, which we should expla
 The curves for the reproduction number `R` look as follows
 
 ### Analysis of `R`
-![Reproduction numbers](example/ReproductionNumbers.png)
+![Reproduction numbers](example/reproduction-numbers-estimated-cases-20200511.png)
 
 #### Beginning 
 Clearly, the `RKI-H` curve goes up drastically in the beginning, then winds and goes below `NEU-HA`.
@@ -35,12 +35,23 @@ About the time all reproduction number plots reach values below 1 we observe tha
 The two `NEU` curves are more smooth, exhibiting a somewhat stable margin to the *magical* value of `R = 1`.
 Given that values of `R = 1 ± ε` create a tremendous publicity, the advantage of the more smooth point estimators `NEU` is clear.
 
-### Cases
+### Analysis of cases
 
-![Cases](example/Cases.png)
+![Cases](example/cases-estimated-cases-20200511.png)
 
 Overall, the values of `NEU-H` and `RKI-H` coincide quite nicely; there is some lag for `RKI-H`.
 In contrast the case numbers from `NEU-HA` are off to a large degree.
 This is because `NEU-HA` bases its future predictions on past values -- a risky thing to do in times of rapidly changing dynamics.
 Nevertheless, because `NEU-HA` computes its reproduction number also on the same internal forecasts, the [reproduction number](#analysis-of-`R`) appears to be fine.
 Another thing to note from the cases is that although the predictions for the cases appear to overlap nicely toward the end, their effect on the reproduction number is still not negligible.
+
+## Comparison based on historical data & confirmed cases
+
+For the following plots we use the confirmed cases based on the figures provided by the Robert Koch Institut.
+Note that with the confirmed cases we get a significant periodicity, because cases are not submitted on Sundays, for examples.
+
+### Analysis of `R`
+![Reproduction numbers](example/reproduction-numbers-confirmed-cases.png)
+
+### Analysis of cases
+![Cases](example/cases-confirmed-cases.png)
