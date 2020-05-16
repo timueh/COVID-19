@@ -1,0 +1,10 @@
+name = "ReproductionNumbers"
+uuid = "e4160cac-96d8-4f61-9c07-4f503e864ab7"
+authors = ["Tillmann Mühlpfordt <tillmann.muehlpfordt@kit.edu>"]
+version = "0.1.0"
+
+[deps]
+DataFrames = "a93c6f00-e57d-5684-b7b6-d8193f3e46c0"
+Dates = "ade2ca70-3891-5945-98fb-dc099432e06a"
+RollingFunctions = "b0e4dd01-7b14-53d8-9b45-175a3e362653"
+Statistics = "10745b16-79ce-11e8-11f9-7d13ad32a3b2"
