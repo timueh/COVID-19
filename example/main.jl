@@ -1,4 +1,4 @@
-using ReproductionNumbers, DataFrames, ExcelFiles
+using ReproductionNumbers, DataFrames, ExcelFiles, Plots
 
 function get_raw_number(df::DataFrame, column_name::String = "Punktschätzer der Anzahl Neuerkrankungen (ohne Glättung)")
     Vector{Int64}(df[!, column_name])
@@ -85,3 +85,9 @@ k_gen = 4
 rki_h_N, rki_h_R = build_R(df_cases; past = k_gen - 1, future = 0, k_gen = k_gen)
 neu_h_N, neu_h_R = build_R(df_cases; past = 3, future = 3, k_gen = k_gen)
 neu_ha_N, neu_ha_R = build_R_acausal(df_cases; past = 3, future = 4, k_gen = k_gen)
+
+
+gr()
+plot(rki_h_R.days, rki_h_R.R, marker=:x, label="RKI-H")
+plot!(neu_h_R.days, neu_h_R.R, marker=:c, label="NEU-H")
+plot!(neu_ha_R.days, neu_ha_R.R, marker=:s, label="NEU-HA")
