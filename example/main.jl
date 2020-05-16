@@ -1,5 +1,13 @@
 using ReproductionNumbers, DataFrames, ExcelFiles
 
+function get_raw_number(df::DataFrame, column_name::String = "Punktschätzer der Anzahl Neuerkrankungen (ohne Glättung)")
+    Vector{Int64}(df[!, column_name])
+end
+
+function get_dates(df::DataFrame, column_name::String = "Datum des Erkrankungsbeginns")
+    df[!, column_name]
+end
+
 df = DataFrame(load("../data/R-Beispielrechnung.xlsx", "Nowcast_R"))
 
 N_raw, dates = get_raw_number(df), get_dates(df)
