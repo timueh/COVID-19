@@ -27,10 +27,11 @@ function build_R(df::DataFrame; past::Int, future::Int, k_gen::Int)
     DataFrame(days = days_N, cases = N), DataFrame(days = days_R, R = R)
 end
 
-function build_R_acausal(df::DataFrame; past::Int, future::Int, k_gen::Int)
-    df_N_temp, df_R = build_R(df, past = past, future = future, k_gen = k_gen)
+function build_R_acausal(df::DataFrame, past::Day, future::Day, k_gen::Day)
+    df_N_temp, df_R = build_R(df, past = Dates.value(past), future = Dates.value(future), k_gen = Dates.value(k_gen))
+
     df_N_acausal = compute_cases_acausal(df, df_R, past = past, future = future, k_gen = k_gen)
-    relevant_days = df_N_acausal.days - Day(k_gen)
+    relevant_days = df_N_acausal.days - k_gen
 
     num = df_N_acausal.cases
     den = df_N_temp[ first(relevant_days) .<= df_N_temp.days .<= last(relevant_days), :cases]
@@ -39,9 +40,22 @@ function build_R_acausal(df::DataFrame; past::Int, future::Int, k_gen::Int)
     df_N_acausal, DataFrame(days = df_N_acausal.days, R = R)
 end
 
-function compute_cases_acausal(df_cases::DataFrame, df_reproduction::DataFrame; past::Int, future::Int, k_gen::Int)
-    start_date = first(df_reproduction).days - Day(past)
-    end_date = last(df_reproduction).days + Day(future)
+function build_R_acausal(df::DataFrame, past::Int, future::Int, k_gen::Int)
+    df_N_temp, df_R = build_R(df, past = past, future = future, k_gen = k_gen)
+    df_N_acausal = compute_cases_acausal(df, df_R, past = past, future = future, k_gen = k_gen)
+    relevant_days = df_N_acausal.days .- k_gen
+
+    num = df_N_acausal.cases
+    den = df_N_temp[ first(relevant_days) .<= df_N_temp.days .<= last(relevant_days), :cases]
+    R = compute_R(num, den)
+
+    df_N_acausal, DataFrame(days = df_N_acausal.days, R = R)
+end
+
+
+function compute_cases_acausal(df_cases::DataFrame, df_reproduction::DataFrame; past::Union{Dates.Day,Int}, future::Union{Dates.Day,Int}, k_gen::Union{Dates.Day,Int})
+    start_date = first(df_reproduction).days - past
+    end_date = last(df_reproduction).days + future
 
     @assert start_date ∈ df_cases.days "missing case numbers from the past (required start date: $(start_date))"
     @assert end_date ∈ df_cases.days "missing case numbers from the future (required end date: $(end_date))"
@@ -56,5 +70,31 @@ function compute_cases_acausal(df_cases::DataFrame, df_reproduction::DataFrame; 
         push!(N, mean(cases .* w))
     end
 
-    DataFrame(days = df_reproduction.days + Dates.Day(past), cases = N)
+    DataFrame(days = df_reproduction.days .+ past, cases = N)
+end
+
+function parameter_search(df::DataFrame, past::Array{Int64,1}, future::Array{Int64,1}, k_gen:: Array{Int64,1}, data_col::String)
+    result_r = DataFrame(Method = String[], Case= String[], Past = Int[], Future = Int[], MAE = Float64[], k_gen=Int[])
+    result_n = DataFrame(Method = String[], Case= String[], Past = Int[], Future = Int[], MAE = Float64[], k_gen=Int[])
+    df_cases = get_data(df, days_col = "k", data_col = data_col, kind = "cases")
+    r_true = df[!, "true R"]
+    for k in k_gen
+        for i in past
+            if i > k
+                break
+            end
+            for j in future
+                if j > k
+                    break
+                end
+                neu_h_N, neu_h_R = build_R(df_cases; past = i, future = j, k_gen = k)
+                error = mean(abs.(neu_h_R.R[max(1, 11 - i - j):length(neu_h_R.R)]- r_true[(max(1,11 - i -j)+ k + i):(length(r_true)- j)]))
+                push!(result_r, ["Neu-h", data_col, i, j, error, k])
+                neu_ha_N, neu_ha_R = build_R_acausal(df_cases, i, j, k)
+                error = mean(abs.(neu_ha_R.R[max(1, 11 - i - j):length(neu_h_R.R)] -r_true[(max(1,11 - i -j)+ k + i):(length(r_true)- j)]))
+                push!(result_r, ["Neu-ha", data_col, i, j, error, k])
+            end
+        end
+    end
+    return result_r
 end
