@@ -11,7 +11,7 @@ function compute_R(numerator::AbstractVector, denominator::AbstractVector)
     numerator ./ denominator
 end
 
-function build_R(df::DataFrame; past::Int, future::Int, k_gen::Int)
+function build_R(df::DataFrame, past::Int, future::Int, k_gen::Int)
     @assert past >= 0 && future >= 0 "values for past = $past and future = $future must be non-negative"
     @assert k_gen > 0 "invalid value for k_gen ($(k_gen))"
 
@@ -28,9 +28,9 @@ function build_R(df::DataFrame; past::Int, future::Int, k_gen::Int)
 end
 
 function build_R_acausal(df::DataFrame, past::Day, future::Day, k_gen::Day)
-    df_N_temp, df_R = build_R(df, past = Dates.value(past), future = Dates.value(future), k_gen = Dates.value(k_gen))
+    df_N_temp, df_R = build_R(df, Dates.value(past), Dates.value(future), Dates.value(k_gen))
 
-    df_N_acausal = compute_cases_acausal(df, df_R, past = past, future = future, k_gen = k_gen)
+    df_N_acausal = compute_cases_acausal(df, df_R, past, future, k_gen)
     relevant_days = df_N_acausal.days - k_gen
 
     num = df_N_acausal.cases
@@ -42,7 +42,7 @@ end
 
 build_R_acausal(df::DataFrame, past::Int, future::Int, k_gen::Int) = build_R_acausal(df, Day(past), Day(future), Day(k_gen))
 
-function compute_cases_acausal(df_cases::DataFrame, df_reproduction::DataFrame; past::Day, future::Day, k_gen::Day)
+function compute_cases_acausal(df_cases::DataFrame, df_reproduction::DataFrame, past::Day, future::Day, k_gen::Day)
     @assert typeof(df_cases.days) == Vector{Date} "Column `days` of df_cases  needs to have `Date` entries"
     @assert typeof(df_reproduction.days) == Vector{Date} "Column `days` of df_cases  needs to have `Date` entries"
     start_date = first(df_reproduction).days - past
@@ -78,7 +78,7 @@ function parameter_search(df::DataFrame, past::Array{Int64,1}, future::Array{Int
                 if j > k
                     break
                 end
-                neu_h_N, neu_h_R = build_R(df_cases; past = i, future = j, k_gen = k)
+                neu_h_N, neu_h_R = build_R(df_cases, i, j, k)
                 error = mean(abs.(neu_h_R.R[max(1, 11 - i - j):length(neu_h_R.R)]- r_true[(max(1,11 - i -j)+ k + i):(length(r_true)- j)]))
                 push!(result_r, ["Neu-h", data_col, i, j, error, k])
                 neu_ha_N, neu_ha_R = build_R_acausal(df_cases, i, j, k)
@@ -87,5 +87,5 @@ function parameter_search(df::DataFrame, past::Array{Int64,1}, future::Array{Int
             end
         end
     end
-    return result_r
+    result_r
 end

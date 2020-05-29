@@ -23,8 +23,8 @@ k_gen = 4
 df = DataFrame(load(file_name, sheet_name))
 df_cases = get_reference_data(df, days_col = days_col, data_col = data_col, kind = "cases")
 
-rki_h_N, rki_h_R = build_R(df_cases; past = k_gen - 1, future = 0, k_gen = k_gen)
-neu_h_N, neu_h_R = build_R(df_cases; past = k_gen - 1, future = 3, k_gen = k_gen)
+rki_h_N, rki_h_R = build_R(df_cases, k_gen - 1, 0, k_gen)
+neu_h_N, neu_h_R = build_R(df_cases, k_gen - 1, 3, k_gen)
 neu_ha_N, neu_ha_R = build_R_acausal(df_cases, k_gen - 1, 3, k_gen)
 
 
