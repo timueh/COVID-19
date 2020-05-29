@@ -40,20 +40,11 @@ function build_R_acausal(df::DataFrame, past::Day, future::Day, k_gen::Day)
     df_N_acausal, DataFrame(days = df_N_acausal.days, R = R)
 end
 
-function build_R_acausal(df::DataFrame, past::Int, future::Int, k_gen::Int)
-    df_N_temp, df_R = build_R(df, past = past, future = future, k_gen = k_gen)
-    df_N_acausal = compute_cases_acausal(df, df_R, past = past, future = future, k_gen = k_gen)
-    relevant_days = df_N_acausal.days .- k_gen
+build_R_acausal(df::DataFrame, past::Int, future::Int, k_gen::Int) = build_R_acausal(df, Day(past), Day(future), Day(k_gen))
 
-    num = df_N_acausal.cases
-    den = df_N_temp[ first(relevant_days) .<= df_N_temp.days .<= last(relevant_days), :cases]
-    R = compute_R(num, den)
-
-    df_N_acausal, DataFrame(days = df_N_acausal.days, R = R)
-end
-
-
-function compute_cases_acausal(df_cases::DataFrame, df_reproduction::DataFrame; past::Union{Dates.Day,Int}, future::Union{Dates.Day,Int}, k_gen::Union{Dates.Day,Int})
+function compute_cases_acausal(df_cases::DataFrame, df_reproduction::DataFrame; past::Day, future::Day, k_gen::Day)
+    @assert typeof(df_cases.days) == Vector{Date} "Column `days` of df_cases  needs to have `Date` entries"
+    @assert typeof(df_reproduction.days) == Vector{Date} "Column `days` of df_cases  needs to have `Date` entries"
     start_date = first(df_reproduction).days - past
     end_date = last(df_reproduction).days + future
 
