@@ -1,4 +1,4 @@
-export compute_R, build_R, build_R_acausal
+export compute_R, build_R, build_R_acausal, parameter_search, get_data
 
 function compute_R(data::AbstractVector, windowsize::Int)
     denominator = data[1:end - windowsize]
@@ -29,7 +29,10 @@ end
 
 function build_R_acausal(df::DataFrame, past::Day, future::Day, k_gen::Day)
     df_N_temp, df_R = build_R(df, Dates.value(past), Dates.value(future), Dates.value(k_gen))
-
+    if typeof(df_R.days) == Vector{Int}
+       df_R.days = map(x -> DateTime(2020,2,3) + Day(x), df_R.days) 
+    end
+    
     df_N_acausal = compute_cases_acausal(df, df_R, past, future, k_gen)
     relevant_days = df_N_acausal.days - k_gen
 
@@ -43,8 +46,8 @@ end
 build_R_acausal(df::DataFrame, past::Int, future::Int, k_gen::Int) = build_R_acausal(df, Day(past), Day(future), Day(k_gen))
 
 function compute_cases_acausal(df_cases::DataFrame, df_reproduction::DataFrame, past::Day, future::Day, k_gen::Day)
-    @assert typeof(df_cases.days) == Vector{Date} "Column `days` of df_cases  needs to have `Date` entries"
-    @assert typeof(df_reproduction.days) == Vector{Date} "Column `days` of df_cases  needs to have `Date` entries"
+#    @assert typeof(df_cases.days) == Vector{Date} "Column `days` of df_cases  needs to have `Date` entries"
+#    @assert typeof(df_reproduction.days) == Vector{Date} "Column `days` of df_cases  needs to have `Date` entries"
     start_date = first(df_reproduction).days - past
     end_date = last(df_reproduction).days + future
 
@@ -64,10 +67,20 @@ function compute_cases_acausal(df_cases::DataFrame, df_reproduction::DataFrame, 
     DataFrame(days = df_reproduction.days .+ past, cases = N)
 end
 
+function get_data(df::DataFrame; days_col::String, data_col::String, kind::String)
+    @assert kind ∈ ( "R", "cases" ) "kind $kind not supported"
+    index = df[!, days_col]
+    data = df[!, data_col]
+    inds = .!ismissing.(data)
+
+    DataFrame( Dict("days" => Vector(index[inds]), "$(kind)" => Vector(data[inds]) ) )
+end
+
 function parameter_search(df::DataFrame, past::Array{Int64,1}, future::Array{Int64,1}, k_gen:: Array{Int64,1}, data_col::String)
-    result_r = DataFrame(Method = String[], Case= String[], Past = Int[], Future = Int[], MAE = Float64[], k_gen=Int[])
-    result_n = DataFrame(Method = String[], Case= String[], Past = Int[], Future = Int[], MAE = Float64[], k_gen=Int[])
+    result_r = DataFrame(NEUH = Float64[], NEUHA= Float64[], Past = Int[], Future = Int[], k_gen=Int[])
+    result_n = DataFrame(Method = String[], Case= String[], Past = Int[], Future = Int[], k_gen=Int[])
     df_cases = get_data(df, days_col = "k", data_col = data_col, kind = "cases")
+    df_cases.days = map(x -> DateTime(2020,2,3) + Day(x), df_cases.days)
     r_true = df[!, "true R"]
     for k in k_gen
         for i in past
@@ -78,12 +91,11 @@ function parameter_search(df::DataFrame, past::Array{Int64,1}, future::Array{Int
                 if j > k
                     break
                 end
-                neu_h_N, neu_h_R = build_R(df_cases, i, j, k)
-                error = mean(abs.(neu_h_R.R[max(1, 11 - i - j):length(neu_h_R.R)]- r_true[(max(1,11 - i -j)+ k + i):(length(r_true)- j)]))
-                push!(result_r, ["Neu-h", data_col, i, j, error, k])
+                neu_h_N, neu_h_R = build_R(df_cases,i, j,  k)
+                error_h = mean(abs.(neu_h_R.R[max(1, 11 - i - j):length(neu_h_R.R)]- r_true[(max(1,11 - i -j)+ k + i):(length(r_true)- j)]))
                 neu_ha_N, neu_ha_R = build_R_acausal(df_cases, i, j, k)
-                error = mean(abs.(neu_ha_R.R[max(1, 11 - i - j):length(neu_h_R.R)] -r_true[(max(1,11 - i -j)+ k + i):(length(r_true)- j)]))
-                push!(result_r, ["Neu-ha", data_col, i, j, error, k])
+                error_ha = mean(abs.(neu_ha_R.R[max(1, 11 - i - j):length(neu_h_R.R)] -r_true[(max(1,11 - i -j)+ k + i):(length(r_true)- j)]))
+                push!(result_r, [error_h, error_ha, i, j, k])
             end
         end
     end
