@@ -41,6 +41,7 @@ jobs:
         git commit -m "Update figures" -a
     
     - name: Push changes
-      uses: ad-m/github-push-action@test
+      uses: ad-m/github-push-action@master
       with:
+        branch: test
         github_token: ${{ secrets.GITHUB_TOKEN }}
