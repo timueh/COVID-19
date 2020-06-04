@@ -31,7 +31,7 @@ jobs:
         version: 1.4
     
     - name: Add reproduction number
-      run: julia -e 'using Pkg; Pkg.add("DataFrames"); Pkg.add("RollingFunctions"); Pkg.add("Statistics"); Pkg.add("ExcelFiles"); Pkg.add("Plots"); Pkg.add("Dates"); Pkg.add(Pkg.add(PackageSpec(path=".")))'
+      run: julia -e 'using Pkg; Pkg.add("DataFrames"); Pkg.add("RollingFunctions"); Pkg.add("Statistics"); Pkg.add("ExcelFiles"); Pkg.add("Plots"); Pkg.add("Dates"); Pkg.add(PackageSpec(path="."))'
         
     # Runs a single command using the runners shell
     - name: run main
