@@ -30,7 +30,7 @@ end
 function build_R_acausal(df::DataFrame, past::Day, future::Day, k_gen::Day)
     df_N_temp, df_R = build_R(df, Dates.value(past), Dates.value(future), Dates.value(k_gen))
     if typeof(df_R.days) == Vector{Int}
-       df_R.days = map(x -> DateTime(2020,2,3) + Day(x), df_R.days) 
+       df_R.days = map(x -> Date(2020,2,3) + Day(x), df_R.days) 
     end
     
     df_N_acausal = compute_cases_acausal(df, df_R, past, future, k_gen)
@@ -46,8 +46,7 @@ end
 build_R_acausal(df::DataFrame, past::Int, future::Int, k_gen::Int) = build_R_acausal(df, Day(past), Day(future), Day(k_gen))
 
 function compute_cases_acausal(df_cases::DataFrame, df_reproduction::DataFrame, past::Day, future::Day, k_gen::Day)
-#    @assert typeof(df_cases.days) == Vector{Date} "Column `days` of df_cases  needs to have `Date` entries"
-#    @assert typeof(df_reproduction.days) == Vector{Date} "Column `days` of df_cases  needs to have `Date` entries"
+    @assert typeof(df_reproduction.days) == Vector{Date} "Column `days` of df_cases  needs to have `Date` entries"
     start_date = first(df_reproduction).days - past
     end_date = last(df_reproduction).days + future
 
@@ -80,7 +79,7 @@ function parameter_search(df::DataFrame, past::Array{Int64,1}, future::Array{Int
     result_r = DataFrame(NEUH = Float64[], NEUHA= Float64[], Past = Int[], Future = Int[], k_gen=Int[])
     result_n = DataFrame(Method = String[], Case= String[], Past = Int[], Future = Int[], k_gen=Int[])
     df_cases = get_data(df, days_col = "k", data_col = data_col, kind = "cases")
-    df_cases.days = map(x -> DateTime(2020,2,3) + Day(x), df_cases.days)
+    df_cases.days = map(x -> Date(2020,2,3) + Day(x), df_cases.days)
     r_true = df[!, "true R"]
     for k in k_gen
         for i in past
