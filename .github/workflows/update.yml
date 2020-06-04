@@ -37,10 +37,11 @@ jobs:
       run: pip3 install xlrd
               
     - name: Change Directory
-      run: cd example
 
     - name: run main
-      run: julia example/main.jl
+      run: | 
+       cd example
+       julia example/main.jl
 
     - name: Commit files
       run: |
