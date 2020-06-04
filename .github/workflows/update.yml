@@ -29,7 +29,10 @@ jobs:
     - uses: julia-actions/setup-julia@latest
       with:
         version: 1.4
-
+    
+    - name: Add reproduction number
+      run: julia -e 'using Pkg; Pkg.add(".")'
+        
     # Runs a single command using the runners shell
     - name: run main
       run: julia example/main.jl
