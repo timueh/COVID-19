@@ -36,8 +36,6 @@ jobs:
     - name: Python dependencies
       run: pip3 install xlrd
               
-    - name: Change Directory
-
     - name: run main
       run: | 
        cd example
