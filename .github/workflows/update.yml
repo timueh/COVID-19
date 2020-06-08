@@ -39,7 +39,7 @@ jobs:
     - name: run main
       run: | 
        cd example
-       julia example/main.jl
+       julia main.jl
 
     - name: Commit files
       run: |
