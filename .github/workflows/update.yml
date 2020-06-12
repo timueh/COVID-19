@@ -6,9 +6,9 @@ name: Update
 # events but only for the master branch
 on:
   push:
-    branches: [ master ]
+    branches: [ master, workflow_automation_TM ]
   pull_request:
-    branches: [ master ]
+    branches: [ master, workflow_automation_TM ]
    # Runs on 0:00 of each day
    # schedule:
     # * is a special character in YAML so you have to quote this string
@@ -25,6 +25,10 @@ jobs:
     steps:
     # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
     - uses: actions/checkout@v2
+      with:
+          fetch-depth: 0
+      env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     - uses: julia-actions/setup-julia@latest
       with:
@@ -48,7 +52,4 @@ jobs:
         git commit -m "Update figures" -a
     
     - name: Push changes
-      uses: ad-m/github-push-action@master
-      with:
-        branch: test
-        github_token: ${{ secrets.GITHUB_TOKEN }}
+      run: git push
