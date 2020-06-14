@@ -6,9 +6,9 @@ name: Update
 # events but only for the master branch
 on:
   push:
-    branches: [ master, workflow_automation_TM ]
+    branches: [ master, workflow_automation ]
   pull_request:
-    branches: [ master, workflow_automation_TM ]
+    branches: [ master, workflow_automation ]
    # Runs on 0:00 of each day
    # schedule:
     # * is a special character in YAML so you have to quote this string
