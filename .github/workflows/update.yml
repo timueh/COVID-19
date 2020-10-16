@@ -9,10 +9,8 @@ on:
     branches: [ master, workflow_automation, my_workflow ]
   pull_request:
     branches: [ master, workflow_automation, my_workflow ]
-   # Runs on 0:00 of each day
-   # schedule:
-    # * is a special character in YAML so you have to quote this string
-   # - cron:  '0 0 * * *'
+  schedule:
+    - cron:  '0 5 * * *'
 #
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -34,11 +32,8 @@ jobs:
       with:
         version: 1.5
 
-    - name: Add reproduction number
+    - name: Add reproduction number as a package
       run: julia -e 'using Pkg; Pkg.add("DataFrames"); Pkg.add("RollingFunctions"); Pkg.add("Statistics"); Pkg.add("ExcelFiles"); Pkg.add("Plots"); Pkg.add("Dates"); Pkg.add("CSV"); Pkg.add(PackageSpec(path="."))'
-        
-    - name: Python dependencies
-      run: pip3 install xlrd
               
     - name: run main
       run: | 
