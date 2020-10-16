@@ -34,6 +34,9 @@ jobs:
 
     - name: Add reproduction number as a package
       run: julia -e 'using Pkg; Pkg.add("DataFrames"); Pkg.add("RollingFunctions"); Pkg.add("Statistics"); Pkg.add("ExcelFiles"); Pkg.add("Plots"); Pkg.add("Dates"); Pkg.add("CSV"); Pkg.add(PackageSpec(path="."))'
+
+    - name: Python dependencies
+      run: pip3 install xlrd
               
     - name: run main
       run: | 
