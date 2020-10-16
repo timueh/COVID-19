@@ -7,11 +7,11 @@ It is defined as the average number of people who get infected by a typical case
 Ideally, we'd like to see `R` drop below 1 so that a pandemic (eventually) fades out.
 
 We compare different point estimators for `R` with respect to their effectiveness in representing historical data.
-Specifically, we compare an acausal point estimator that accurately accounts for weekly periodicities to the point estimator that has long been used by the Robert Koch Institut.
+Specifically, we compare an acausal point estimator that accurately accounts for weekly periodicities to the point estimator that has long been used by the Robert Koch Institut (4-day moving average), and a point estimator that the Robert Koch Institut started using recently (7-day moving average).
 
 The code is based on the medRxiv submission `MEDRXIV/2020/100974`.
 
-The following plot shows three different point estimators, which we should explain first
+The following plot shows three different point estimators, namely:
 
 | Name | Description |
 | --- | --- |
@@ -41,5 +41,3 @@ The curves for the reproduction number `R` for the reported cases look as follow
 
 The curves for the actual reported cases look as follows
 ![Reported cases](example/cases-nowcasting.png)
-
-## Where does the data come from
