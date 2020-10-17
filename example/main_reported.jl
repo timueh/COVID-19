@@ -3,7 +3,7 @@ using ReproductionNumbers, DataFrames, Plots, Dates, CSV
 include("compute_and_plot.jl")
 
 fig_name    =   "reported"
-file_name   =   "../data/reported-cases-data-"*string(today())*".csv"
+file_name   =   "../data/reported-cases-data.csv"
 days_col    =   "Refdatum"
 data_col    =   "AnzahlFall_sum"
 ylabel_R    =   "Basic reproduction number R_0"

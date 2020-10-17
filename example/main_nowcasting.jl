@@ -3,7 +3,7 @@ using ReproductionNumbers, DataFrames, ExcelFiles, Plots, Dates
 include("compute_and_plot.jl")
 
 fig_name    =   "nowcasting"
-file_name   =   "../data/nowcasting-data-"*string(today())*".xlsx"
+file_name   =   "../data/nowcasting-data.xlsx"
 sheet_name  =   "Nowcast_R"
 days_col    =   "Datum des Erkrankungsbeginns"
 data_col    =   "Punktschätzer der Anzahl Neuerkrankungen (ohne Glättung)"
