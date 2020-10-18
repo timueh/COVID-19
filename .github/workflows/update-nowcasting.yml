@@ -1,0 +1,49 @@
+# This is a basic workflow to help you get started with Actions
+
+name: Update
+
+# Controls when the action will run. Triggers the workflow on push or pull request
+# events but only for the master branch
+on:
+  schedule:
+    - cron:  '0 5 * * 1-5'
+#
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+  build:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+    # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+    - uses: actions/checkout@v2
+      with:
+          fetch-depth: 0
+      env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    - uses: julia-actions/setup-julia@latest
+      with:
+        version: 1.5
+
+    - name: Add reproduction number as a package
+      run: julia -e 'using Pkg; Pkg.add("DataFrames"); Pkg.add("RollingFunctions"); Pkg.add("Statistics"); Pkg.add("ExcelFiles"); Pkg.add("Plots"); Pkg.add("Dates"); Pkg.add("CSV"); Pkg.add(PackageSpec(path="."))'
+
+    - name: Python dependencies
+      run: pip3 install xlrd
+              
+    - name: run main
+      run: | 
+       cd example
+       julia main_nowcasting.jl
+
+    - name: Commit files
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        git commit -m "Updated figures, `date +'%Y-%m-%d'`" -a
+    
+    - name: Push changes
+      run: git push
