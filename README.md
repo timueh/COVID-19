@@ -1,6 +1,6 @@
 # Point estimators for reproduction number `R`
 
-![Reproduction numbers](example/reproduction-numbers-reported.png)
+![Reproduction numbers](example/reproduction-numbers-nowcasting.png)
 
 In the wake of the current pandemic, the reproduction number `R` takes on an important role.
 It is defined as the average number of people who get infected by a typical case.
