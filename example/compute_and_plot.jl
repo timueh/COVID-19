@@ -32,10 +32,11 @@ function compute_and_plot(df_cases::DataFrame, case_name::String, k_gen::Int, yl
         Rs[i] = rename(Rs[i], :R => label)
     end
 
-    N, R = innerjoin(Ns...; on = :days), innerjoin(Rs...; on = :days)
+    N = outerjoin(Ns...; on = :days)
+    R = outerjoin(Rs...; on = :days)
 
     CSV.write("results-N-"*case_name*".csv", N, delim = ", ")
     CSV.write("results-R-"*case_name*".csv", R, delim = ", ")
 
-    Ns, Rs
+    N, R
 end
