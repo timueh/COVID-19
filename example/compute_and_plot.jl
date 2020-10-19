@@ -35,8 +35,12 @@ function compute_and_plot(df_cases::DataFrame, case_name::String, k_gen::Int, yl
     N = outerjoin(Ns...; on = :days)
     R = outerjoin(Rs...; on = :days)
 
-    CSV.write("results-N-"*case_name*".csv", N, delim = ", ")
-    CSV.write("results-R-"*case_name*".csv", R, delim = ", ")
+    # replace missing values
+    N = coalesce.(N, NaN)
+    R = coalesce.(R, NaN)
+
+    CSV.write("results-N-"*case_name*".csv", N, delim = ",")
+    CSV.write("results-R-"*case_name*".csv", R, delim = ",")
 
     N, R
 end
