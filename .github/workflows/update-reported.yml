@@ -6,7 +6,7 @@ name: Update reported
 # events but only for the master branch
 on:
   schedule:
-    - cron:  '0 4 * * *'
+    - cron:  '30 4 * * *'
 #
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -27,6 +27,9 @@ jobs:
     - uses: julia-actions/setup-julia@latest
       with:
         version: 1.5
+
+    - name: Pull changes
+      run: git pull
 
     - name: Add reproduction number as a package
       run: julia -e 'using Pkg; Pkg.add("DataFrames"); Pkg.add("RollingFunctions"); Pkg.add("Statistics"); Pkg.add("ExcelFiles"); Pkg.add("Plots"); Pkg.add("Dates"); Pkg.add("CSV"); Pkg.add(PackageSpec(path="."))'
