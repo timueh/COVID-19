@@ -9,11 +9,14 @@ function get_data(path_to_file::String, title::String)
                 :type => "scatter",
                 :name => value, ) 
                 for value in values ]
-    layout = Dict("yaxis" => Dict("title" => title),  "plot_bgcolor"=>"#222222",
-    "paper_bgcolor"=>"#222222",
-    "font"=>(
-        color="7FDBFF",
-    ),)
+    layout = Dict("yaxis" => Dict("title" => title,
+                    "hoverformat" => ".2f"),
+                    "plot_bgcolor"=>"#222222",
+                    "paper_bgcolor"=>"#222222",
+                "font" => (
+                    color="7FDBFF",
+                ),
+    )
 
     data, layout
 end
@@ -34,7 +37,7 @@ function get_layout()
     run(`curl https://raw.githubusercontent.com/timueh/COVID-19/dash-app/example/results-R-nowcasting.csv --output nowcasting_r.csv`)
     run(`curl https://raw.githubusercontent.com/timueh/COVID-19/dash-app/example/results-N-reported.csv --output reported_data_n.csv`)
     run(`curl https://raw.githubusercontent.com/timueh/COVID-19/dash-app/example/results-N-nowcasting.csv --output nowcasting_n.csv`)
-    
+
     data_R_rep, layout_R_rep = get_data("reported_data_r.csv", "Reproduction number")
     data_N_rep, layout_N_rep = get_data("reported_data_n.csv", "Number of cases")
 

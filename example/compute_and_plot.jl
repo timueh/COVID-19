@@ -1,13 +1,13 @@
 using Plots.PlotMeasures
 using CSV
 
-function round_values!(df::DataFrame, round::Function)
-    for i in 1:ncol(df)
-        if eltype(df[:, i]) <: Real
-            df[:, i] = round.(df[:, i])
-        end
-    end
-end
+# function round_values!(df::DataFrame, round::Function)
+#     for i in 1:ncol(df)
+#         if eltype(df[:, i]) <: Real
+#             df[:, i] = round.(df[:, i])
+#         end
+#     end
+# end
 
 function compute_and_plot(df_cases::DataFrame, case_name::String, k_gen::Int, ylabel_R::String, ylabel_N::String)
     label_4_days = "RKI Nowcast 4 days"
@@ -49,9 +49,9 @@ function compute_and_plot(df_cases::DataFrame, case_name::String, k_gen::Int, yl
     N = coalesce.(N, NaN)
     R = coalesce.(R, NaN)
 
-    # round values
-    N = round_values(N, n -> !isnan(n) ? round(Int, n) : n)
-    R = round_values(R, r -> round(r, digits=1))
+    # # round values
+    # N = round_values(N, n -> !isnan(n) ? round(Int, n) : n)
+    # R = round_values(R, r -> round(r, digits=1))
 
     # write to CSV
     CSV.write("results-N-"*case_name*".csv", N, delim = ",")
