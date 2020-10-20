@@ -18,14 +18,7 @@ function get_data(path_to_file::String, title::String)
     data, layout
 end
 
-data_R_rep=[]
- layout_R_rep=[]
- data_N_rep=[]
- layout_N_rep=[]
- data_R_now=[]
- layout_R_now=[]
- data_N_now=[]
- layout_N_now = []
+data_R_rep = layout_R_rep = data_N_rep = layout_N_rep = data_R_now = layout_R_now = data_N_now = layout_N_now = []
 
 function get_layout()
     global data_R_rep
@@ -37,15 +30,11 @@ function get_layout()
     global data_N_now
     global layout_N_now
 
-    
     run(`curl https://raw.githubusercontent.com/timueh/COVID-19/dash-app/example/results-R-reported.csv --output reported_data_r.csv`)
-
     run(`curl https://raw.githubusercontent.com/timueh/COVID-19/dash-app/example/results-R-nowcasting.csv --output nowcasting_r.csv`)
-    
     run(`curl https://raw.githubusercontent.com/timueh/COVID-19/dash-app/example/results-N-reported.csv --output reported_data_n.csv`)
-
     run(`curl https://raw.githubusercontent.com/timueh/COVID-19/dash-app/example/results-N-nowcasting.csv --output nowcasting_n.csv`)
-
+    
     data_R_rep, layout_R_rep = get_data("reported_data_r.csv", "Reproduction number")
     data_N_rep, layout_N_rep = get_data("reported_data_n.csv", "Number of cases")
 
