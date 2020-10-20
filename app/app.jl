@@ -45,7 +45,57 @@ function get_layout()
     data_N_now, layout_N_now = get_data("nowcasting_n.csv", "Number of cases")
 
     return html_div() do
-        html_div("Some explanation will follow later."),
+        dcc_markdown("
+        # Covid-19 in Germany
+        
+        ## Point estimators for the reproduction number `R`
+        "),
+        # Just like in most countries, the novel SARS-CoV-2 virus affects daily life in Germany.
+        # It is not just the numerous deaths it has induced, but the so-called *new-normal* that everybody is still trying to adjust to.
+
+        # Two indicators that often attract media attention are the
+        
+        # - reproduction number `R` (i.e. the average number of people who get infected by a typical case),
+        # - and the total number of cases.
+
+        # The German Robert-Koch-Institut provides daily updates for both.
+
+        # This dashboard compares the two methods used by the Robert Koch Institut to a recently proposed method.
+        # The following table explains all methods, and all the different, publicly available data sources, from which you can choose.
+        html_table(children = [
+                    html_tr(children = [
+                        html_th("Method"),
+                        html_th("Explanation")
+                    ]),
+                    html_tr(children = [
+                        html_td("RKI Nowcast 4 days"),                     
+                        html_td("Estimator long used by Robert Koch Institut; effectively a 4-day moving average."),                 
+                        ]),
+                    html_tr(children = [
+                        html_td("RKI Nowcast 7 days"),
+                        html_td("Estimator used by Robert Koch Institut; effectively a 7-day moving average, taking 5 days from the past and one day from the future."),
+                        ]),
+                    html_tr(children = [
+                        html_td("Projected 7 days"),
+                        html_td("Acausal estimator that accounts for three days of the past, the current day, and three days of the future; future values are based on the respective values from the previous week."),
+                        ]),
+        ]
+        ),
+        html_table(children = [
+                    html_tr(children = [
+                        html_th("Data source"),
+                        html_th("Explanation"),
+                    ]),
+                    html_tr(children = [
+                        html_td("RKI nowcasting cases"),  
+                        html_td("Nowcasting data on total number of cases provided by Robert Koch Institut"),  
+                        ]),
+                    html_tr(children = [
+                        html_td("RKI reported cases"),
+                        html_td("Full data set of reported cases, curated and updated daily by the Robert Koch Institut"),
+                        ]),
+        ]
+        ),
         html_h1(id = "my-h1"),
         dcc_dropdown(
             id = "data-source",
