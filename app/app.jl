@@ -131,10 +131,10 @@ app.layout = get_layout
 
 callback!(app, [Output("R-values", "figure"), Output("N-values", "figure"), Output("my-h1", "children"), Output("data-explanation", "children")], Input("data-source", "value")) do input_value
     data_R, layout_R, data_N, layout_N, explanation  = if input_value == "RKI-reported"
-        data_R_rep, layout_R_rep, data_N_rep, layout_N_rep, "Nowcasting data on total number of cases provided by Robert Koch Institut" 
+        data_R_rep, layout_R_rep, data_N_rep, layout_N_rep,  "Full data set of reported cases, curated and updated daily by the Robert Koch Institut"
 
     else
-        data_R_now, layout_R_now, data_N_now, layout_N_now, "Full data set of reported cases, curated and updated daily by the Robert Koch Institut"
+        data_R_now, layout_R_now, data_N_now, layout_N_now, "Nowcasting data on total number of cases provided by Robert Koch Institut"
     end
     R = round(data_R[3][:y][end], digits=2)
 
