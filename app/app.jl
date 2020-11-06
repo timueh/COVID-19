@@ -33,10 +33,10 @@ function get_layout()
     global data_N_now
     global layout_N_now
 
-    run(`curl https://raw.githubusercontent.com/timueh/COVID-19/dash-app/example/results-R-reported.csv --output reported_data_r.csv`)
-    run(`curl https://raw.githubusercontent.com/timueh/COVID-19/dash-app/example/results-R-nowcasting.csv --output nowcasting_r.csv`)
-    run(`curl https://raw.githubusercontent.com/timueh/COVID-19/dash-app/example/results-N-reported.csv --output reported_data_n.csv`)
-    run(`curl https://raw.githubusercontent.com/timueh/COVID-19/dash-app/example/results-N-nowcasting.csv --output nowcasting_n.csv`)
+    run(`curl https://raw.githubusercontent.com/timueh/COVID-19/master/example/results-R-reported.csv --output reported_data_r.csv`)
+    run(`curl https://raw.githubusercontent.com/timueh/COVID-19/master/example/results-R-nowcasting.csv --output nowcasting_r.csv`)
+    run(`curl https://raw.githubusercontent.com/timueh/COVID-19/master/example/results-N-reported.csv --output reported_data_n.csv`)
+    run(`curl https://raw.githubusercontent.com/timueh/COVID-19/master/example/results-N-nowcasting.csv --output nowcasting_n.csv`)
 
     data_R_rep, layout_R_rep = get_data("reported_data_r.csv", "Reproduction number")
     data_N_rep, layout_N_rep = get_data("reported_data_n.csv", "Number of cases")
