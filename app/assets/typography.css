@@ -1,0 +1,15 @@
+body {
+    font-family: sans-serif;
+    background: #000000;
+}
+div {
+    background: black;
+    color: #7FDBFF;
+}
+h1,h2 {
+    color: #7FDBFF
+}
+#react-select-2--value-item {
+    color: #7FDBFF;
+}
+.six.columns { width: 48%;            }
