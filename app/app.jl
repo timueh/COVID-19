@@ -141,4 +141,4 @@ callback!(app, [Output("R-values", "figure"), Output("N-values", "figure"), Outp
     Dict(:data => data_R, :layout => layout_R), Dict(:data => data_N, :layout => layout_N), "R = $R", "Explanation of the data source: $explanation"
 end
 
-run_server(app, "0.0.0.0", parse(Int, ARGS[1]))
+run_server(app, "0.0.0.0")
