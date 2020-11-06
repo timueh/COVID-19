@@ -6,7 +6,7 @@ fig_name    =   "reported"
 file_name   =   "../data/reported-cases-data.csv"
 days_col    =   "Refdatum"
 data_col    =   "AnzahlFall_sum"
-ylabel_R    =   "Basic reproduction number R_0"
+ylabel_R    =   "Instantaneous reproduction number R"
 ylabel_N    =   "Reported cases"
 
 # download full COVID-19 data set from RKI

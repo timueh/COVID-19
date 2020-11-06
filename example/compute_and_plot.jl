@@ -1,6 +1,14 @@
 using Plots.PlotMeasures
 using CSV
 
+# function round_values!(df::DataFrame, round::Function)
+#     for i in 1:ncol(df)
+#         if eltype(df[:, i]) <: Real
+#             df[:, i] = round.(df[:, i])
+#         end
+#     end
+# end
+
 function compute_and_plot(df_cases::DataFrame, case_name::String, k_gen::Int, ylabel_R::String, ylabel_N::String)
     label_4_days = "RKI Nowcast 4 days"
     label_7_days = "RKI Nowcast 7 days"
@@ -27,16 +35,28 @@ function compute_and_plot(df_cases::DataFrame, case_name::String, k_gen::Int, yl
     Rs = [R_4_days, R_7_days, R_projected_7_days]
     labels = [label_4_days, label_7_days, label_projected_7_days]
 
+    # rename columns
     for (label, i) in zip(labels, 1:length(Ns))
         Ns[i] = rename(Ns[i], :cases => label)
         Rs[i] = rename(Rs[i], :R => label)
     end
 
+    # join columns based on days
     N = outerjoin(Ns...; on = :days)
     R = outerjoin(Rs...; on = :days)
 
-    CSV.write("results-N-"*case_name*".csv", N, delim = ", ")
-    CSV.write("results-R-"*case_name*".csv", R, delim = ", ")
+    # replace missing values
+    N = coalesce.(N, NaN)
+    R = coalesce.(R, NaN)
 
+    # # round values
+    # N = round_values(N, n -> !isnan(n) ? round(Int, n) : n)
+    # R = round_values(R, r -> round(r, digits=1))
+
+    # write to CSV
+    CSV.write("results-N-"*case_name*".csv", N, delim = ",")
+    CSV.write("results-R-"*case_name*".csv", R, delim = ",")
+
+    # return values
     N, R
 end
