@@ -9,7 +9,7 @@ Ideally, we'd like to see `R` drop below 1 so that a pandemic (eventually) fades
 We compare different point estimators for `R` with respect to their effectiveness in representing historical data.
 Specifically, we compare an acausal point estimator that accurately accounts for weekly periodicities to the point estimator that has long been used by the Robert Koch Institut (4-day moving average), and a point estimator that the Robert Koch Institut started using recently (7-day moving average).
 
-The code is based on the medRxiv submission `MEDRXIV/2020/100974`.
+The code is based on the [this preprint (in German)](https://www.researchgate.net/profile/Ralf_Mikut/publication/341447502_Schatzung_einer_zeitabhangigen_Reproduktionszahl_R_fur_Daten_mit_einer_wochentlichen_Periodizitat_am_Beispiel_von_SARS-CoV-2-Infektionen_und_COVID-19/links/5ec190ee92851c11a870291a/Schaetzung-einer-zeitabhaengigen-Reproduktionszahl-R-fuer-Daten-mit-einer-woechentlichen-Periodizitaet-am-Beispiel-von-SARS-CoV-2-Infektionen-und-COVID-19.pdf).
 
 The following plot shows three different point estimators, namely:
 
@@ -36,7 +36,7 @@ To get started, check out the examples in the designated folder.
 
 ## Results for reported cases
 
-__The following plots are generated upon calling [`examples/main_reported.jl`](examples/main_reported.jl)__
+__The following plots are generated upon calling [`example/main_reported.jl`](example/main_reported.jl)__
 
 The data for the reported cases comes from the [daily updated figures](https://www.arcgis.com/sharing/rest/content/items/f10774f1c63e40168479a1feb6c7ca74/data) from the Robert Koch Institut.
 
