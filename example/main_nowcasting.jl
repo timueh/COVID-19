@@ -7,7 +7,7 @@ file_name   =   "../data/nowcasting-data.xlsx"
 sheet_name  =   "Nowcast_R"
 days_col    =   "Datum des Erkrankungsbeginns"
 data_col    =   "Punktschätzer der Anzahl Neuerkrankungen (ohne Glättung)"
-ylabel_R    =   "Basic reproduction number R_0"
+ylabel_R    =   "Instantaneous reproduction number R"
 ylabel_N    =   "Nowcasted cases"
 
 # download nowcasting data from RKI

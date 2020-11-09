@@ -1,6 +1,6 @@
-# Point estimators for reproduction number `R`
+# Covid-19 in Germany &ndash; Point estimators for `R`
 
-![Reproduction numbers](example/reproduction-numbers-nowcasting.png)
+![Reproduction numbers](example/reproduction-numbers-reported.png)
 
 In the wake of the current pandemic, the reproduction number `R` takes on an important role.
 It is defined as the average number of people who get infected by a typical case.
@@ -19,8 +19,24 @@ The following plot shows three different point estimators, namely:
 | `RKI Nowcast 7 days` | Estimator used by Robert Koch Institut; effectively a 7-day moving average, taking 5 days from the past and one day from the future. |
 | `Projected 7 days` | Acausal estimator that accounts for three days of the past, the current day, and three days of the future; future values are based on the respective values from the previous week. | 
 
+## Installation
+
+The code was tested with `Julia 1.5.2`.
+You can [add the code to your local machine as an unregistered package](https://julialang.github.io/Pkg.jl/v1/managing-packages/#Adding-unregistered-packages-1) called `ReproductionNumbers`.
+Simply switch to the package manager, and add the package locally.
+```julia
+julia> ]
+(@v1.5) pkg> add https://github.com/timueh/COVID-19
+julia> using ReproductionNumbers
+```
+
+## Getting started
+
+To get started, check out the examples in the designated folder.
 
 ## Results for reported cases
+
+__The following plots are generated upon calling [`examples/main_reported.jl`](examples/main_reported.jl)__
 
 The data for the reported cases comes from the [daily updated figures](https://www.arcgis.com/sharing/rest/content/items/f10774f1c63e40168479a1feb6c7ca74/data) from the Robert Koch Institut.
 
@@ -33,6 +49,10 @@ The curves for the actual reported cases look as follows
 
 ## Results for nowcasted cases
 
+*Unfortunately, the nowcasting data is not accessible via an API, and automated downloads are blocked eventualy with a captcha. That's why the nowcasting data may not be up to date.*
+
+__The following plots are generated upon calling [`examples/main_nowcasting.jl`](examples/main_nowcasting.jl)__
+
 The data for the nowcasted cases comes from the [daily updated figures](https://www.rki.de/DE/Content/InfAZ/N/Neuartiges_Coronavirus/Projekte_RKI/Nowcasting_Zahlen.xlsx\?__blob\=publicationFile) from the Robert Koch Institut.
 
 The curves for the reproduction number `R` for the reported cases look as follows
@@ -41,3 +61,10 @@ The curves for the reproduction number `R` for the reported cases look as follow
 
 The curves for the actual reported cases look as follows
 ![Reported cases](example/cases-nowcasting.png)
+
+
+## Dashboard
+
+[Dashboard for Point estimators for reproduction number `R`.](https://r-estimator-dashboard.herokuapp.com/)
+
+*Based on publicly available data from the German Robert Koch Institut.*

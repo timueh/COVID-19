@@ -1,3 +1,5 @@
+app/*.csv
+
 .ipynb_checkpoints
 Manifest.toml
 test/Manifest.toml
