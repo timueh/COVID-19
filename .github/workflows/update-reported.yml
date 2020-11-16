@@ -6,7 +6,6 @@ name: Update reported
 # events but only for the master branch
 on:
   push:
-      branches: [ master ]
   schedule:
     - cron:  '30 4 * * *'
   
