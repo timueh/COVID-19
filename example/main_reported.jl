@@ -16,7 +16,7 @@ k_gen = 4
 
 # Pre-processing
 df = CSV.File(file_name) |> DataFrame
-df_filtered = df[df["NeuerFall"] .!= -1, :]
+df_filtered = df[df.NeuerFall .!= -1, :]
 df_temp = by(df_filtered, :Refdatum, :AnzahlFall => sum; sort=true)
 df_temp.Refdatum = Date.(df_temp.Refdatum, Dates.DateFormat("yyyy/mm/dd H:M:S"))
 
