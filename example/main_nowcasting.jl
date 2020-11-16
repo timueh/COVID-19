@@ -18,4 +18,4 @@ k_gen = 4
 df = DataFrame(load(file_name, sheet_name))
 df_cases = get_reference_data(df, days_col = days_col, data_col = data_col, kind = "cases")
 
-N, R = compute_and_plot(df_cases, fig_name, k_gen, ylabel_R, ylabel_N)
+N, R = compute_and_plot(df_cases, fig_name, k_gen, ylabel_R, ylabel_N, "nowcasted number of cases")

@@ -24,5 +24,5 @@ df_cases = get_reference_data(df_temp, days_col = days_col, data_col = data_col,
 # account for the fact that cases were not reported properly before March 2020
 df_cases = df_cases[df_cases.days .>= Date("2020-03-01"), :]
 
-N, R = compute_and_plot(df_cases, fig_name, k_gen, ylabel_R, ylabel_N)
+N, R = compute_and_plot(df_cases, fig_name, k_gen, ylabel_R, ylabel_N, "reported number of cases")
 
