@@ -15,8 +15,8 @@ run(`curl https://www.arcgis.com/sharing/rest/content/items/f10774f1c63e40168479
 k_gen = 4
 
 # Pre-processing
-df = CSV.read(file_name)
-df_filtered = df[df["NeuerFall"] .!= -1, :]
+df = CSV.File(file_name) |> DataFrame
+df_filtered = df[df.NeuerFall .!= -1, :]
 df_temp = by(df_filtered, :Refdatum, :AnzahlFall => sum; sort=true)
 df_temp.Refdatum = Date.(df_temp.Refdatum, Dates.DateFormat("yyyy/mm/dd H:M:S"))
 
