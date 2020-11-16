@@ -29,7 +29,7 @@ julia> ]
 (@v1.5) pkg> add https://github.com/timueh/COVID-19
 julia> using ReproductionNumbers
 ```
-
+d
 ## Getting started
 
 To get started, check out the examples in the designated folder.
