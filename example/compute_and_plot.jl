@@ -21,13 +21,13 @@ function compute_and_plot(df_cases::DataFrame, case_name::String, k_gen::Int, yl
 
     gr()
     last_number = last(R_projected_7_days.R)
-    plot(R_4_days.days, R_4_days.R, label=label_4_days, ylabel=ylabel_R, title="R based on $(databasis). R of the projected 7 estimator is $(round(last_number; digits=2)). (Last updated: $(today()).)", titlefontsize=7, margin=7mm)
+    plot(R_4_days.days, R_4_days.R, label=label_4_days, ylabel=ylabel_R, title="R based on $(databasis). R of the projected 7 estimator is $(round(last_number; digits=2)). (Last updated: $(today()).)", titlefontsize=7, margin=7mm, legend=:topleft)
     plot!(R_7_days.days, R_7_days.R, label=label_7_days)
     plot!(R_projected_7_days.days, R_projected_7_days.R, label=label_projected_7_days)
     savefig("reproduction-numbers-"*case_name*".png")
 
     gr()
-    plot(N_4_days.days, N_4_days.cases, label=label_4_days, ylabel=ylabel_N, title="Number of cases based on $(databasis). (Last updated: $(today()).) ", titlefontsize=7, margin=7mm)
+    plot(N_4_days.days, N_4_days.cases, label=label_4_days, ylabel=ylabel_N, title="Number of cases based on $(databasis). (Last updated: $(today()).) ", titlefontsize=7, margin=7mm, legend=:topleft)
     plot!(N_7_days.days, N_7_days.cases, label=label_7_days)
     plot!(N_projected_7_days.days, N_projected_7_days.cases, label=label_projected_7_days)
     savefig("cases-"*case_name*".png")
