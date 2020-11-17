@@ -1,4 +1,5 @@
-data/raw/
+data/raw/*.csv
+data/raw/*.xlsx
 app/*.csv
 
 .ipynb_checkpoints
