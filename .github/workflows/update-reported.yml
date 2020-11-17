@@ -5,6 +5,7 @@ name: Update reported
 # Controls when the action will run. Triggers the workflow on push or pull request
 # events but only for the master branch
 on:
+  push:
   schedule:
     - cron:  '30 4 * * *'
   
@@ -33,7 +34,7 @@ jobs:
       run: git pull
 
     - name: Add reproduction number as a package
-      run: julia -e 'using Pkg; Pkg.add(name="DataFrames", version="0.21.8"); Pkg.add("RollingFunctions"); Pkg.add("Statistics"); Pkg.add("ExcelFiles"); Pkg.add("Plots"); Pkg.add("Dates"); Pkg.add("CSV"); Pkg.add(PackageSpec(path="."))'
+      run: julia -e 'using Pkg; Pkg.add(PackageSpec(path="."))'
 
     - name: Show installed packages
       run: julia -e 'using Pkg; Pkg.status()'
@@ -41,10 +42,10 @@ jobs:
     - name: Python dependencies
       run: pip3 install xlrd
               
-    - name: run main_reported.jl
+    - name: run reported.jl
       run: | 
        cd example
-       julia main_reported.jl
+       julia reported.jl
 
     - name: Commit files
       run: |
