@@ -2,7 +2,7 @@ using ReproductionNumbers
 
 # setup
 fig_name    =   "reported"
-file_name   =   "../data/reported-cases-data.csv"
+file_name   =   "../data/raw/reported-cases-data.csv" # this file is huge and is hence added to .gitignore
 days_col    =   "Refdatum"
 data_col    =   "AnzahlFall_sum"
 ylabel_R    =   "Instantaneous reproduction number R"
