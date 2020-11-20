@@ -32,11 +32,11 @@ julia> using ReproductionNumbers
 
 ## Getting started
 
-To get started, check out the examples in the designated folder.
+After having installed the package, you can check out the examples in the designated folder.
 
 ## Results for reported cases
 
-__The following plots are generated upon calling [`example/main_reported.jl`](example/main_reported.jl)__
+__The following plots are generated upon calling [`example/reported.jl`](example/reported.jl)__
 
 The data for the reported cases comes from the [daily updated figures](https://www.arcgis.com/sharing/rest/content/items/f10774f1c63e40168479a1feb6c7ca74/data) from the Robert Koch Institut.
 
@@ -49,9 +49,9 @@ The curves for the actual reported cases look as follows
 
 ## Results for nowcasted cases
 
-*Unfortunately, the nowcasting data is not accessible via an API, and automated downloads are blocked eventualy with a captcha. That's why the nowcasting data may not be up to date.*
+*Unfortunately, the nowcasting data is not accessible via an API, and automated downloads are blocked at some point by a captcha. That's why the nowcasting data may not be up to date.*
 
-__The following plots are generated upon calling [`examples/main_nowcasting.jl`](examples/main_nowcasting.jl)__
+__The following plots are generated upon calling [`example/nowcasting.jl`](example/nowcasting.jl)__
 
 The data for the nowcasted cases comes from the [daily updated figures](https://www.rki.de/DE/Content/InfAZ/N/Neuartiges_Coronavirus/Projekte_RKI/Nowcasting_Zahlen.xlsx\?__blob\=publicationFile) from the Robert Koch Institut.
 
