@@ -6,6 +6,18 @@ In the wake of the current pandemic, the reproduction number `R` takes on an imp
 It is defined as the average number of people who get infected by a typical case.
 Ideally, we'd like to see `R` drop below 1 so that a pandemic (eventually) fades out.
 
+## Dashboard
+
+We visualize the results [Dashboard for Point estimators for reproduction number `R`.](https://r-estimator-dashboard.herokuapp.com/). This app runs on a free heroku dyno. Unfortunately, due to restriction of the free variant, the dashboard is not always available. However, you may also run the app on your local computer by executing the following steps:
+1. Clone this repository
+2. Add this package to your path and install all dependecies
+3. Open a terminal in the apps folder
+4. Execute `julia app.jl` in the terminal
+
+*The results in the dashboard are based on publicly available data from the German Robert Koch Institut.*
+
+## Summary
+
 We compare different point estimators for `R` with respect to their effectiveness in representing historical data.
 Specifically, we compare an acausal point estimator that accurately accounts for weekly periodicities to the point estimator that has long been used by the Robert Koch Institut (4-day moving average), and a point estimator that the Robert Koch Institut started using recently (7-day moving average).
 
@@ -19,12 +31,14 @@ The following plot shows three different point estimators, namely:
 | `RKI Nowcast 7 days` | Estimator used by Robert Koch Institut; effectively a 7-day moving average, taking 5 days from the past and one day from the future. |
 | `Projected 7 days` | Acausal estimator that accounts for three days of the past, the current day, and three days of the future; future values are based on the respective values from the previous week. | 
 
+
+
 ## Installation
 
 The code was tested with `Julia 1.5.2`.
 You can [add the code to your local machine as an unregistered package](https://julialang.github.io/Pkg.jl/v1/managing-packages/#Adding-unregistered-packages-1) called `ReproductionNumbers`.
 Simply switch to the package manager, and add the package locally.
-```julia
+```juliaC
 julia> ]
 (@v1.5) pkg> add https://github.com/timueh/COVID-19
 julia> using ReproductionNumbers
@@ -63,8 +77,3 @@ The curves for the actual reported cases look as follows
 ![Reported cases](example/cases-nowcasting.png)
 
 
-## Dashboard
-
-[Dashboard for Point estimators for reproduction number `R`.](https://r-estimator-dashboard.herokuapp.com/)
-
-*Based on publicly available data from the German Robert Koch Institut.*
