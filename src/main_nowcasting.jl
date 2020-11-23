@@ -14,4 +14,6 @@ function main_nowcasting(fig_name, file_name, sheet_name, days_col, data_col, yl
 
     # do the math
     N, R = compute_and_plot(df_cases, fig_name, k_gen, ylabel_R, ylabel_N, "nowcasted number of cases")
+
+    N, R, df
 end

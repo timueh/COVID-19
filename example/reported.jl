@@ -8,4 +8,4 @@ data_col    =   "AnzahlFall_sum"
 ylabel_R    =   "Instantaneous reproduction number R"
 ylabel_N    =   "Reported cases"
 
-main_reported(fig_name, file_name, days_col, data_col, ylabel_R, ylabel_N)
+N, R, df = main_reported(fig_name, file_name, days_col, data_col, ylabel_R, ylabel_N)
