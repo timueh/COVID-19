@@ -1,10 +1,13 @@
+[![Julia](https://img.shields.io/badge/Language-Julia-blue.svg)](https://julialang.org/)
+[![Julia](https://img.shields.io/badge/Heroku-Dashboard-green.svg)](https://r-estimator-dashboard.herokuapp.com/)
+
 # Covid-19 in Germany &ndash; Point estimators for `R`
 
 ![Reproduction numbers](example/reproduction-numbers-reported.png)
 
 In the wake of the current pandemic, the reproduction number `R` takes on an important role.
 It is defined as the average number of people who get infected by a typical case.
-Ideally, we'd like to see `R` drop below 1 so that a pandemic (eventually) fades out.
+Ideally, we'd like to see `R` drop below 1 permanently so that a pandemic (eventually) fades out.
 
 We compare different point estimators for `R` with respect to their effectiveness in representing historical data.
 Specifically, we compare an acausal point estimator that accurately accounts for weekly periodicities to the point estimator that has long been used by the Robert Koch Institut (4-day moving average), and a point estimator that the Robert Koch Institut started using recently (7-day moving average).
@@ -66,5 +69,14 @@ The curves for the actual reported cases look as follows
 ## Dashboard
 
 [Dashboard for Point estimators for reproduction number `R`.](https://r-estimator-dashboard.herokuapp.com/)
+
+The dashboard is built using Julia.
+Unfortunately, the app sometimes fails to connect in time.
+Consider re-loading or just running the app locally (for which you need the Julia packages `Dash`, `DashHtmlComponents`, `DashCoreComponents`, `DataFrames`, and `CSV`).
+
+```julia
+julia> ; cd app/
+julia> include("app.jl")
+```
 
 *Based on publicly available data from the German Robert Koch Institut.*
