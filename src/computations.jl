@@ -11,7 +11,7 @@ function compute_R(numerator::AbstractVector, denominator::AbstractVector)
     numerator ./ denominator
 end
 
-function build_R(df::DataFrame, past::Int, future::Int, k_gen::Int)
+function build_R(df::DataFrame, past::Int, future::Int, k_gen::Int, pop_days::Int=0)
     @assert past >= 0 && future >= 0 "values for past = $past and future = $future must be non-negative"
     @assert k_gen > 0 "invalid value for k_gen ($(k_gen))"
 
