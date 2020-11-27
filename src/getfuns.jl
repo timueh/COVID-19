@@ -18,6 +18,5 @@ function get_reference_data(df::DataFrame; days_col::String, data_col::String, k
     days = df[!, days_col]
     data = df[!, data_col]
     inds = .!ismissing.(data)
-
     DataFrame( Dict("days" => Vector{Dates.Date}(days[inds]), "$(kind)" => Vector(data[inds]) ) )
 end

@@ -67,7 +67,6 @@ function plot_df(df, day_col::String, ylabel::String, title::String, file_name::
     days = df[!, day_col]
     data = df[ .!(names(df) .== day_col)]
 
-    display(pwd())
     closeall()
     gr()
     for (i, name) in enumerate(names(data))

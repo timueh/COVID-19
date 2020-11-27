@@ -3,7 +3,9 @@ export main_nowcasting
 function main_nowcasting(fig_name, file_name, sheet_name, days_col, data_col, ylabel_R, ylabel_N)
     # download nowcasting data from RKI
     # a captcha might block the download from time to time
-    run(`curl https://www.rki.de/DE/Content/InfAZ/N/Neuartiges_Coronavirus/Projekte_RKI/Nowcasting_Zahlen.xlsx\?__blob\=publicationFile --output $file_name`)
+    if !isfile(file_name)
+        run(`curl https://www.rki.de/DE/Content/InfAZ/N/Neuartiges_Coronavirus/Projekte_RKI/Nowcasting_Zahlen.xlsx\?__blob\=publicationFile --output $file_name`)
+    end
 
     # generation time
     k_gen = 4
