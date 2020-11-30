@@ -1,4 +1,4 @@
-export compute_R, build_R, build_R_acausal, parameter_search, get_data
+export compute_R, build_R, build_R_acausal, parameter_search, get_data, fill_non_existing_entries
 
 function compute_R(data::AbstractVector, windowsize::Int)
     denominator = data[1:end - windowsize]
@@ -99,4 +99,65 @@ function parameter_search(df::DataFrame, past::Array{Int64,1}, future::Array{Int
         end
     end
     result_r
+end
+
+"""
+function fill_non_existing_entries(x_ref::Vector, x::Vector, y::Vector; fill_with::Real=0)
+
+    This function takes a pair `(x, y)` and compares it against the reference x_ref.
+    In case there are missing values in `x` relative to `x_ref`, then `fill_with` is added at the corresponding index in `y` and returned (the value of `y` remains unchanged).
+
+    ## Example
+
+    ```julia
+    x_ref = 1:10
+    x = 1:2:10
+    y = rand(length(x))
+    
+    y_ref = fill_non_existing_entries(x_ref, x, y)
+    ```
+
+    This yields.
+
+    ```
+    julia> [x y]
+        5×2 Array{Float64,2}:
+        1.0  0.245373
+        3.0  0.682147
+        5.0  0.919954
+        7.0  0.153142
+        9.0  0.235671
+
+        julia> [x_ref y_ref]
+        10×2 Array{Float64,2}:
+        1.0  0.245373
+        2.0  0.0
+        3.0  0.682147
+        4.0  0.0
+        5.0  0.919954
+        6.0  0.0
+        7.0  0.153142
+        8.0  0.0
+        9.0  0.235671
+        10.0  0.0
+    ```
+"""
+function fill_non_existing_entries(x_ref, x, y::Vector; fill_with::Real=0)
+    # sanity checks
+    @assert length(x_ref) >= length(x)
+    @assert length(x) == length(y)
+    @assert eltype(x_ref) == eltype(x)
+
+    # find all indicies of values of x in the reference x_ref
+    inds_correct = findall(in(x), x_ref)
+    # find all the other indicies, i.e. values that are not in x
+    inds_to_correct = setdiff(1:length(x_ref), inds_correct)
+    # generate target z
+    z = zeros(eltype(y), length(x_ref))
+    # ... and set correct values
+    z[inds_correct] .= y
+    # ... and set missing values
+    z[inds_to_correct] .= fill_with
+    # return
+    z
 end

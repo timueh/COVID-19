@@ -20,3 +20,11 @@ function get_reference_data(df::DataFrame; days_col::String, data_col::String, k
     inds = .!ismissing.(data)
     DataFrame( Dict("days" => Vector{Dates.Date}(days[inds]), "$(kind)" => Vector(data[inds]) ) )
 end
+
+function get_reference_data(d::Dict; days_col::String, data_col::String, kind::String)
+    d_ = deepcopy(d)
+    for (name, df) in d
+        d_[name] = get_reference_data(df, days_col=days_col, data_col=data_col, kind=kind)
+    end
+    d_
+end
