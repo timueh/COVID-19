@@ -14,7 +14,7 @@ ylabel_N    =   "Reported cases"
 # Looking at the RKI dashboard we find that today - 2 days is fine.
 pop_days    =   2
 
-N, R, df_cases = main_reported(fig_name, file_name, days_col, data_col, ylabel_R, ylabel_N, "country", pop_days)
+N, R, df_cases = main_reported(fig_name, file_name, days_col, data_col, ylabel_R, ylabel_N, "state", pop_days)
 
 # # ## break down data for German states
 # df = CSV.File(file_name) |> DataFrame
@@ -39,3 +39,5 @@ N, R, df_cases = main_reported(fig_name, file_name, days_col, data_col, ylabel_R
 # end
 
 # cases_dict = sort(cases_dict)
+
+https://raw.githubusercontent.com/timueh/COVID-19/feature/R-per-state/example/results-R-reported-Germany.csv

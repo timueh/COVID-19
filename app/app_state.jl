@@ -1,4 +1,4 @@
-using Dash, DashHtmlComponents, DashCoreComponents, DataFrames, CSV
+using Dash, DashHtmlComponents, DashCoreComponents, DataFrames, CSV, HTTP
 
 states = ["Baden-Württemberg",
             "Bayern",
@@ -21,7 +21,6 @@ country = "Germany"
 dropdown_opts = [Dict("label"=>state, "value"=>state) for state in [country; states]]
 github_url = "https://raw.githubusercontent.com/timueh/COVID-19/feature/R-per-state/example/"
 
-
 function get_data(path_to_file::String, ylabel::String, title::String)
     df = DataFrame(CSV.File(path_to_file))
     index, values = names(df)[1], names(df)[2:end]
@@ -38,11 +37,35 @@ function get_data(path_to_file::String, ylabel::String, title::String)
 end
 
 function get_R_data_germany()
-    data, layout = get_data(github_url*"results-R-reported-Germany.csv", "R", "")
+    file_ger = "results-R-reported-Germany.csv"
+    data, layout = get_data(file_ger, "R", "")
     data_proj = data[end]
     data_proj[:name] = "Germany"
     data_proj
 end
+
+function download_data(github_url, suffix, states)
+    values = ["R", "N"]
+    for state in states
+        for value in values
+            for suff in suffix
+                file_name = "results-"*value*"-"*suff*"-"*state*".csv"
+                url = github_url*file_name
+                display(url)
+                run(`curl $url --output $file_name`)
+            end
+        end
+    end
+end
+
+download_state_data(url) = download_data(url, ["reported"], states)
+download_germany_data(url) = download_data(url, ["reported", "nowcasting"], [country])
+
+download_germany_data(github_url)
+download_state_data(github_url)
+
+
+
 
 
 ## APP
@@ -102,9 +125,12 @@ callback!(app, [Output("R-values", "figure"), Output("N-values", "figure"), Outp
         suffix = "nowcasting"
     end
 
-    R, l_R = get_data(github_url*"results-R-"*suffix*"-"*input_location*".csv", "R", input_location)
+    file_R = "results-R-"*suffix*"-"*input_location*".csv"
+    file_N = "results-N-"*suffix*"-"*input_location*".csv"
+
+    R, l_R = get_data(file_R, "R", input_location)
     R_value = round(R[3][:y][end], digits=2)
-    N, l_N = get_data(github_url*"results-N-"*suffix*"-"*input_location*".csv", "Cases", "")
+    N, l_N = get_data(file_N, "Cases", "")
 
     if input_location != country
         # add R values for Germany to compare
