@@ -64,10 +64,6 @@ download_germany_data(url) = download_data(url, ["reported", "nowcasting"], [cou
 download_germany_data(github_url)
 download_state_data(github_url)
 
-
-
-
-
 ## APP
 app = dash(external_stylesheets = ["https://codepen.io/chriddyp/pen/bWLwgP.css"])
 
