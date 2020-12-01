@@ -37,14 +37,9 @@ function get_layout()
     data_N_now, layout_N_now = get_data("nowcasting_n.csv", "Number of cases")
 
     return html_div() do
-        dcc_markdown("
-        # Point estimators for the reproduction number `R` During the COVID-19 Pandemic in Germany
-        "),
+        dcc_markdown("### Reproduction number `R` for COVID-19 pandemic in Germany"),
         html_h1(id = "my-h1"),
-
-
-        html_div([   
-            dcc_dropdown(
+        dcc_dropdown(
             id = "data-source",
             options=[
                 Dict("label" => "RKI nowcasting cases", "value" => "RKI-nowcasting"),
@@ -52,32 +47,21 @@ function get_layout()
             ],
             value="RKI-nowcasting",
             ),
-            html_p(id = "data-explanation")]
+        html_div(id = "data-explanation"),
+        dcc_graph(
+            id = "R-values",
+            figure = (
+                data = data_R_rep,
+                layout = layout_R_rep,
+            )
         ),
-        
-        html_div([
-            html_div([
-                html_h3("R-values"),
-                dcc_graph(
-                    id = "R-values",
-                    figure = (
-                        data = data_R_rep,
-                        layout = layout_R_rep,
-                    )
-                ),
-            ], className="six columns"),
-    
-            html_div([
-                html_h3("N-values"),
-                dcc_graph(
+        dcc_graph(
                     id = "N-values",
                     figure = (
                         data = data_N_rep,
                         layout = layout_N_rep,
                         )
-                )
-            ], className="six columns"),
-        ], className="row"),
+                ),
         html_table(children = [
                     html_tr(children = [
                         html_th("Method"),
@@ -105,7 +89,6 @@ end
 
 app = dash(external_stylesheets = ["https://codepen.io/chriddyp/pen/bWLwgP.css"])
 
-
 app.layout = get_layout
 
 callback!(app, [Output("R-values", "figure"), Output("N-values", "figure"), Output("my-h1", "children"), Output("data-explanation", "children")], Input("data-source", "value")) do input_value
@@ -117,7 +100,7 @@ callback!(app, [Output("R-values", "figure"), Output("N-values", "figure"), Outp
     end
     R = round(data_R[3][:y][end], digits=2)
 
-    Dict(:data => data_R, :layout => layout_R), Dict(:data => data_N, :layout => layout_N), "R = $R", "Explanation of the data source: $explanation"
+    Dict(:data => data_R, :layout => layout_R), Dict(:data => data_N, :layout => layout_N), "R = $R", "$explanation"
 end
 
 run_server(app, "0.0.0.0")
