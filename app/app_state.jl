@@ -1,37 +1,4 @@
-#######################################
-#######################################
-#######################################
-#######################################
-# Datenquelle nowcasting anbinden!!!
-#######################################
-#######################################
-#######################################
-#######################################
-
-
 using Dash, DashHtmlComponents, DashCoreComponents, DataFrames, CSV
-
-function get_data(path_to_file::String, ylabel::String, title::String)
-    df = DataFrame(CSV.File(path_to_file))
-    index, values = names(df)[1], names(df)[2:end]
-
-    data = [ Dict( :x => df[index],
-                :y => df[value],
-                :type => "scatter",
-                :name => value, ) 
-                for value in values ]
-    layout = Dict("yaxis" => Dict("title" => ylabel),
-                  "title" => title)
-
-    data, layout
-end
-
-function get_R_data_germany()
-    data, layout = get_data("../example/results-R-reported-Germany.csv", "R", "")
-    data_proj = data[end]
-    data_proj[:name] = "Germany"
-    data_proj
-end
 
 states = ["Baden-Württemberg",
             "Bayern",
@@ -51,10 +18,34 @@ states = ["Baden-Württemberg",
             "Thüringen"]
 
 country = "Germany"
-
 dropdown_opts = [Dict("label"=>state, "value"=>state) for state in [country; states]]
+github_url = "https://raw.githubusercontent.com/timueh/COVID-19/feature/R-per-state/example/"
 
 
+function get_data(path_to_file::String, ylabel::String, title::String)
+    df = DataFrame(CSV.File(path_to_file))
+    index, values = names(df)[1], names(df)[2:end]
+
+    data = [ Dict( :x => df[index],
+                :y => df[value],
+                :type => "scatter",
+                :name => value, ) 
+                for value in values ]
+    layout = Dict("yaxis" => Dict("title" => ylabel),
+                  "title" => title)
+
+    data, layout
+end
+
+function get_R_data_germany()
+    data, layout = get_data(github_url*"results-R-reported-Germany.csv", "R", "")
+    data_proj = data[end]
+    data_proj[:name] = "Germany"
+    data_proj
+end
+
+
+## APP
 app = dash(external_stylesheets = ["https://codepen.io/chriddyp/pen/bWLwgP.css"])
 
 app.layout = html_div() do
@@ -111,9 +102,9 @@ callback!(app, [Output("R-values", "figure"), Output("N-values", "figure"), Outp
         suffix = "nowcasting"
     end
 
-    R, l_R = get_data("../example/results-R-"*suffix*"-"*input_location*".csv", "R", input_location)
+    R, l_R = get_data(github_url*"results-R-"*suffix*"-"*input_location*".csv", "R", input_location)
     R_value = round(R[3][:y][end], digits=2)
-    N, l_N = get_data("../example/results-N-"*suffix*"-"*input_location*".csv", "Cases", "")
+    N, l_N = get_data(github_url*"results-N-"*suffix*"-"*input_location*".csv", "Cases", "")
 
     if input_location != country
         # add R values for Germany to compare
