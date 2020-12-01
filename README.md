@@ -1,6 +1,8 @@
 [![Julia](https://img.shields.io/badge/Language-Julia-blue.svg)](https://julialang.org/)
 [![Julia](https://img.shields.io/badge/Heroku-Dashboard-green.svg)](https://r-estimator-dashboard.herokuapp.com/)
 
+![Reproduction numbers as a gif](R-per-state.gif)
+
 # Covid-19 in Germany &ndash; Point estimators for `R`
 
 ![Reproduction numbers](example/reproduction-numbers-reported.png)
