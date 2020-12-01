@@ -39,5 +39,3 @@ N, R, df_cases = main_reported(fig_name, file_name, days_col, data_col, ylabel_R
 # end
 
 # cases_dict = sort(cases_dict)
-
-https://raw.githubusercontent.com/timueh/COVID-19/feature/R-per-state/example/results-R-reported-Germany.csv

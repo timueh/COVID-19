@@ -65,9 +65,14 @@ end
 function aggregate_state(df_filtered, days_col)
     gdf = groupby(df_filtered, :Bundesland)
     cases_dict = Dict{String, DataFrame}()
+
+    umlaute = Dict("ä"=>"ae", "ö"=>"oe", "ü"=>"ue", "ß"=>"ss")
     for (i, df_state) in enumerate(gdf)
         # get name of current state
         state_name = unique(gdf[i].Bundesland) |> first
+        for (key, val) in umlaute
+            state_name = replace(state_name, key=>val)
+        end
         # aggregate state data by days
         gdf_state = groupby(df_state, days_col)
         # sum over the number of cases & sort

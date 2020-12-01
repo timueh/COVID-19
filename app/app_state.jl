@@ -1,6 +1,6 @@
 using Dash, DashHtmlComponents, DashCoreComponents, DataFrames, CSV, HTTP
 
-states = ["Baden-Württemberg",
+states = ["Baden-Wuerttemberg",
             "Bayern",
             "Berlin",
             "Brandenburg",
@@ -15,7 +15,7 @@ states = ["Baden-Württemberg",
             "Sachsen-Anhalt",
             "Sachsen",
             "Schleswig-Holstein",
-            "Thüringen"]
+            "Thueringen"]
 
 country = "Germany"
 dropdown_opts = [Dict("label"=>state, "value"=>state) for state in [country; states]]
