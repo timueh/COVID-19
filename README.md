@@ -7,7 +7,7 @@
 
 # Covid-19 in Germany &ndash; Point estimators for `R`
 
-![Reproduction numbers](example/reproduction-numbers-reported.png)
+![Reproduction numbers](example/reproduction-numbers-reported-Germany.png)
 
 In the wake of the current pandemic, the reproduction number `R` takes on an important role.
 It is defined as the average number of people who get infected by a typical case.
@@ -43,16 +43,16 @@ After having installed the package, you can check out the examples in the design
 
 ## Results for reported cases
 
-__The following plots are generated upon calling [`example/reported.jl`](example/reported.jl)__
+__The following plots are generated upon calling [`example/reported-germany.jl`](example/reported-germany.jl)__
 
 The data for the reported cases comes from the [daily updated figures](https://www.arcgis.com/sharing/rest/content/items/f10774f1c63e40168479a1feb6c7ca74/data) from the Robert Koch Institut.
 
 The curves for the reproduction number `R` look as follows
 
-![Reproduction numbers](example/reproduction-numbers-reported.png)
+![Reproduction numbers](example/reproduction-numbers-reported-Germany.png)
 
 The curves for the actual reported cases look as follows
-![Reported cases](example/cases-reported.png)
+![Reported cases](example/cases-reported-Germany.png)
 
 ## Results for nowcasted cases
 
@@ -64,10 +64,10 @@ The data for the nowcasted cases comes from the [daily updated figures](https://
 
 The curves for the reproduction number `R` for the reported cases look as follows
 
-![Reproduction numbers](example/reproduction-numbers-nowcasting.png)
+![Reproduction numbers](example/reproduction-numbers-nowcasting-Germany.png)
 
 The curves for the actual reported cases look as follows
-![Reported cases](example/cases-nowcasting.png)
+![Reported cases](example/cases-nowcasting-Germany.png)
 
 
 ## Dashboard

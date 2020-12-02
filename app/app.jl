@@ -19,11 +19,13 @@ states = ["Baden-Wuerttemberg",
 country = "Germany"
 dropdown_opts = [Dict("label"=>state, "value"=>state) for state in [country; states]]
 
-# download = true
-# github_url = "https://raw.githubusercontent.com/timueh/COVID-19/feature/R-per-state/example/"
+# when running on heroku
+download = true
+github_url = "https://raw.githubusercontent.com/timueh/COVID-19/master/example/"
 
-download = false
-github_url = "../example/"
+# when running locally
+# download = false
+# github_url = "../example/"
 
 
 function get_data(path_to_file::String, ylabel::String, title::String)
