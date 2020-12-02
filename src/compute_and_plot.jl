@@ -59,15 +59,26 @@ function compute_and_plot(df_cases::DataFrame, case_name::String, k_gen::Int, yl
     N, R
 end
 
+function compute_and_plot(d::Dict, case_name::String, k_gen::Int, ylabel_R::String, ylabel_N::String, databasis::String, pop_days::Int=0)
+    N = Vector{DataFrame}()
+    R = Vector{DataFrame}()
+    for (name, df) in d
+        display("processing $name")
+        n, r = compute_and_plot(df, case_name*"-"*name, k_gen, ylabel_R*"-"*name, ylabel_N*"-"*name, databasis, pop_days)
+        push!(N, n)
+        push!(R, r)
+    end
+    N, R
+end
+
 function cut_to_day!(df::DataFrame, day::Date)
     df = df[df.days .<= day, :]
 end
 
 function plot_df(df, day_col::String, ylabel::String, title::String, file_name::String, position=:topright)
     days = df[!, day_col]
-    data = df[ .!(names(df) .== day_col)]
+    data = df[!, .!(names(df) .== day_col)]
 
-    display(pwd())
     closeall()
     gr()
     for (i, name) in enumerate(names(data))

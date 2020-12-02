@@ -1,7 +1,7 @@
 using ReproductionNumbers
 
 # setup
-fig_name    =   "nowcasting"
+fig_name    =   "nowcasting-Germany"
 file_name   =   "../data/raw/nowcasting-data.xlsx"
 sheet_name  =   "Nowcast_R"
 days_col    =   "Datum des Erkrankungsbeginns"
