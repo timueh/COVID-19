@@ -58,7 +58,7 @@ function filter_to_relevant_cases(df::DataFrame)
 end
 
 function aggregate_Germany(df_filtered, days_col)
-    df = by(df_filtered, days_col |> Symbol, :AnzahlFall => sum; sort=true) # `by()` is no longer supported as of DataFrames@0.22
+    df = combine(groupby(df_filtered, days_col), :AnzahlFall => sum) |> sort
     Dict("Germany"=>df)
 end
 

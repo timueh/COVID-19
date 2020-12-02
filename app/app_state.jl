@@ -19,7 +19,13 @@ states = ["Baden-Wuerttemberg",
 
 country = "Germany"
 dropdown_opts = [Dict("label"=>state, "value"=>state) for state in [country; states]]
-github_url = "https://raw.githubusercontent.com/timueh/COVID-19/feature/R-per-state/example/"
+
+# download = true
+# github_url = "https://raw.githubusercontent.com/timueh/COVID-19/feature/R-per-state/example/"
+
+download = false
+github_url = "../example/"
+
 
 function get_data(path_to_file::String, ylabel::String, title::String)
     df = DataFrame(CSV.File(path_to_file))
@@ -44,7 +50,7 @@ function get_R_data_germany()
     data_proj
 end
 
-function download_data(github_url, suffix, states)
+function download_data(github_url, suffix, states; download=true::Bool)
     values = ["R", "N"]
     for state in states
         for value in values
@@ -52,17 +58,21 @@ function download_data(github_url, suffix, states)
                 file_name = "results-"*value*"-"*suff*"-"*state*".csv"
                 url = github_url*file_name
                 display(url)
-                run(`curl $url --output $file_name`)
+                if download
+                    run(`curl $url --output $file_name`)
+                else
+                    run(`cp $url $file_name`)
+                end
             end
         end
     end
 end
 
-download_state_data(url) = download_data(url, ["reported"], states)
-download_germany_data(url) = download_data(url, ["reported", "nowcasting"], [country])
+download_state_data(url; download=true) = download_data(url, ["reported"], states, download=download)
+download_germany_data(url; download=true) = download_data(url, ["reported", "nowcasting"], [country], download=download)
 
-download_germany_data(github_url)
-download_state_data(github_url)
+download_germany_data(github_url; download=download)
+download_state_data(github_url; download=download)
 
 ## APP
 app = dash(external_stylesheets = ["https://codepen.io/chriddyp/pen/bWLwgP.css"])
