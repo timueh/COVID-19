@@ -77,7 +77,7 @@ end
 
 function plot_df(df, day_col::String, ylabel::String, title::String, file_name::String, position=:topright)
     days = df[!, day_col]
-    data = df[ .!(names(df) .== day_col)]
+    data = df[!, .!(names(df) .== day_col)]
 
     closeall()
     gr()
