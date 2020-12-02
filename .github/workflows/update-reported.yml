@@ -41,10 +41,15 @@ jobs:
     - name: Python dependencies
       run: pip3 install xlrd
               
-    - name: run reported.jl
+    - name: run reported-germany.jl
       run: | 
        cd example
-       julia reported.jl
+       julia reported-germany.jl
+
+    - name: run reported-state.jl
+      run: | 
+        cd example
+        julia reported-state.jl
 
     - name: Commit files
       run: |
