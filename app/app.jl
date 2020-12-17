@@ -32,8 +32,8 @@ function get_data(path_to_file::String, ylabel::String, title::String)
     df = DataFrame(CSV.File(path_to_file))
     index, values = names(df)[1], names(df)[2:end]
 
-    data = [ Dict( :x => df[index],
-                :y => df[value],
+    data = [ Dict( :x => df[!, index],
+                :y => df[!, value],
                 :type => "scatter",
                 :name => value, ) 
                 for value in values ]
