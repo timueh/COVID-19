@@ -6,7 +6,7 @@ function main_nowcasting(fig_name, file_name, sheet_name, days_col, data_col, yl
     if !isfile(file_name)
         run(`curl https://www.rki.de/DE/Content/InfAZ/N/Neuartiges_Coronavirus/Projekte_RKI/Nowcasting_Zahlen.xlsx\?__blob\=publicationFile --output $file_name`)
     end
-
+    # https://www.rki.de/DE/Content/InfAZ/N/Neuartiges_Coronavirus/Projekte_RKI/Nowcasting_Zahlen.xlsx?__blob=publicationFile
     # generation time
     k_gen = 4
 
